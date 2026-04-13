@@ -8,8 +8,8 @@
     <style>
         :root {
             --bg: #0f0f0f;
-            --card-bg: #1a1a1a;
             --gold: #BF953F;
+            --gold-completed: #bf943f3b;
             --light-gold: #FCF6BA;
             --text: #eee;
         }
@@ -100,8 +100,14 @@
             transition: background 0.3s;
         }
 
+        .region-header.completed {
+            background: rgba(139, 135, 126, 0.1);
+            color: var(--gold-completed);
+            border-left: 3px solid var(--gold-completed);
+        }
+
         .region-header:hover {
-            background: rgba(191, 149, 63, 0.2);
+            background: rgba(191, 149, 63, 0.3);
         }
 
         .toggle-icon {
@@ -171,14 +177,28 @@
             color: var(--light-gold);
         }
 
+        .monster-node:hover {
+            background: rgba(191, 149, 63, 0.8);
+        }
+
+        .monster-node.excluded:hover {
+            background: #353535;
+            border-color: #252525;
+        }
+
         .monster-node.excluded {
-            background: var(--card-bg);
+            background: #0f0f0f;
             border-color: #252525;
         }
 
         .monster-node.excluded .monster-img {
-            filter: grayscale(100%) brightness(0.25);
-            opacity: 0.25;
+            filter: grayscale(100%) brightness(0.8);
+            opacity: 0.1;
+        }
+
+        .monster-node.excluded:hover .monster-img {
+            filter: grayscale(20%);
+            opacity: 0.6;
         }
 
         .monster-node.excluded .monster-name {
@@ -478,6 +498,7 @@
                     const el = document.getElementById(`n-${i}`);
                     if (el && !el.classList.contains('excluded')) done++;
                 }
+                done === 0 ? reg.headerEl.classList.add('completed') : reg.headerEl.classList.remove('completed');
                 const span = reg.headerEl.querySelector('.region-title');
                 if (span) span.textContent = `${reg.name} ( ${done} / ${reg.count} )`;
             });
